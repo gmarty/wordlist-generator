@@ -21,7 +21,7 @@ if (!languageCode) {
 
 getCorpusFromWikipedia(languageCode)
   .then(function(corpus) {
-    return latinTokenise(corpus);
+    return latinTokenise(corpus, languageCode);
   })
   .then(function(tokens) {
     console.log('Calculating words frequencies');
