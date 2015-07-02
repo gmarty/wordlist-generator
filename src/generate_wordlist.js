@@ -52,10 +52,6 @@ getCorpusFromWikipedia(languageCode)
       .filter(function(word) {
         return word.f > 1;
       })
-      // Filter out 1 letter words.
-      .filter(function(word) {
-        return word.c[0].length > 1;
-      })
       // Find the best case for the word.
       // If at least one candidate starts with a lower case, then the lower case
       // version of the word is retained. Otherwise, the first candidate is kept.

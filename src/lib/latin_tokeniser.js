@@ -11,12 +11,18 @@ module.exports = function latinTokenise(corpus) {
     corpus = corpus
       // Remove non alphabetical characters (but keep single quotes).
       .replace(/[^a-z0-9\u00C0-\u017F']+/gi, ' ')
-      // Remove numeric only entries.
-      .replace(/\b[0-9]+\b/g, ' ')
       .trim()
       .split(/\s+/g)
       .map(function(token) {
         return cleanToken(token);
+      })
+      // Remove tokens containing numbers.
+      .filter(function(token) {
+        return !/[0-9]/.test(token);
+      })
+      // Filter out 1 letter words.
+      .filter(function(token) {
+        return token.length > 1;
       });
 
     resolve(corpus);
@@ -24,7 +30,7 @@ module.exports = function latinTokenise(corpus) {
 };
 
 /**
- * Remove single quotes around or at the beginning of a token.
+ * Remove single quotes at the beginning or the end of a token.
  * e.g. '\'Mewn' => 'Mewn'
  * e.g. '\'Seren\'' => 'Seren'
  *
@@ -33,7 +39,7 @@ module.exports = function latinTokenise(corpus) {
  */
 function cleanToken(token) {
   return token
-    .replace(/^'(.+)'$/g, '$1')
-    .replace(/^'+|'+$/g, '$1')
+    .replace(/'+/g, '\'')
+    .replace(/^'+|'+$/g, '')
     .trim();
 }
