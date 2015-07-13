@@ -3,15 +3,17 @@
 var optimist = require('optimist');
 var path = require('path');
 var fs = require('fs');
+var Promise = require('bluebird');
 
 var getCorpusFromWikipedia = require('./lib/get_corpus_wikipedia');
 var latinTokenise = require('./lib/latin_tokeniser');
 var buildXML = require('./lib/build_xml');
+var languagesCode = require('./lib/languages_code.json');
 
 var cli = optimist(process.argv.slice(2));
 cli.usage('Generate a wordlist given a language code.\n' +
   'Usage: $0 languagecode');
-var languageCode = cli.argv._[0].toLowerCase();
+var languageCode = cli.argv._[0];
 
 // No param? Show help message then.
 if (!languageCode) {
@@ -19,7 +21,15 @@ if (!languageCode) {
   process.exit(0);
 }
 
-getCorpusFromWikipedia(languageCode)
+languageCode = languageCode.toLowerCase();
+
+new Promise(function(resolve, reject) {
+  if (!languagesCode[languageCode]) {
+    throw 'There is no corpus available for the selected language.';
+  }
+
+  return resolve(getCorpusFromWikipedia(languageCode));
+})
   .then(function(corpus) {
     return latinTokenise(corpus, languageCode);
   })
@@ -83,7 +93,7 @@ getCorpusFromWikipedia(languageCode)
         throw(err);
       }
 
-      console.log('File %s succesfully saved', fileName);
+      console.log('File %s successfully saved', fileName);
     })
   })
   .catch(function(err) {
