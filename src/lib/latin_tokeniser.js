@@ -6,7 +6,7 @@ var Promise = require('bluebird');
 
 var CHARSETS = {
   cy: /^[a-zâêîôûŵŷäëïöüẅÿáéíóúẃýàèìòùẁỳ']+$/i,
-  la: /^[a-zāēīōūăĕĭŏŭäëïöü]+$/i,
+  la: /^[a-z]+$/i, // Wikipedia only rarely uses diacritics: āēīōūăĕĭŏŭäëïöü
   default: /^[a-z0-9\u00AA-\u1EF9']+$/i
 };
 
