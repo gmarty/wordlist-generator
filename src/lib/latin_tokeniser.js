@@ -13,6 +13,12 @@ var CHARSETS = {
 module.exports = function latinTokenise(corpus, languageCode) {
   console.log('Tokenising corpus');
 
+  if (!CHARSETS[languageCode]) {
+    console.error('No charset defined for language %s. ' +
+      'Please specify one in src/lib/latin_tokeniser.js. ' +
+      'Defaulting to latin charset.', languageCode);
+  }
+
   return new Promise(function(resolve, reject) {
     corpus = corpus
       // Remove non alphabetical characters (but keep single quotes).
@@ -62,10 +68,6 @@ function isWithinCharsetRange(token, languageCode) {
   if (CHARSETS[languageCode]) {
     return CHARSETS[languageCode].test(token);
   }
-
-  console.error('No charset defined for language %s. ' +
-    'Please specify one in src/lib/latin_tokeniser.js. ' +
-    'Defaulting to latin charset.', languageCode);
 
   return CHARSETS.default.test(token);
 }
