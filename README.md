@@ -29,12 +29,9 @@ You can change the temporary directory in `config/settings.json`.
 
 * Pluggable corpus other than Wikipedia
 * Support non latin script based languages
-* Detect language and use the best tokeniser possible
 * Use [natural](https://github.com/NaturalNode/natural) for all NLP needs
 * Unit tests
 
 ## Note
 
 This project was only tested on Welsh (cy) and Latin (la) on a Linux machine.
-
-It probably only works for languages using latin script.

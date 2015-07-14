@@ -6,7 +6,7 @@ var fs = require('fs');
 var Promise = require('bluebird');
 
 var getCorpusFromWikipedia = require('./lib/get_corpus_wikipedia');
-var latinTokenise = require('./lib/latin_tokeniser');
+var tokenise = require('./lib/tokenise');
 var buildXML = require('./lib/build_xml');
 var languagesCode = require('./lib/languages_code.json');
 
@@ -31,7 +31,7 @@ new Promise(function(resolve, reject) {
   return resolve(getCorpusFromWikipedia(languageCode));
 })
   .then(function(corpus) {
-    return latinTokenise(corpus, languageCode);
+    return tokenise(corpus, languageCode);
   })
   .then(function(tokens) {
     console.log('Calculating words frequencies');
