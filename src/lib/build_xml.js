@@ -10,7 +10,7 @@ module.exports = function buildXML(words, options) {
   console.log('Building XML');
 
   return new Promise(function(resolve, reject) {
-    var description = languagesCode[options.locale.substring(0, 2)];
+    var description = languagesCode[options.locale];
     var wordlistTag = xmlbuilder.create('wordlist');
     wordlistTag.att('locale', options.locale);
 
