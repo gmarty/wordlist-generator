@@ -8,7 +8,7 @@ module.exports = {
   tokenise: function(corpus) {
     return corpus
       .trim()
-      .split(/([^a-z0-9\u00AA-\u1EF9'])+/gi);
+      .split(/([^a-z0-9\u00AA-\u1EF9'])+/i);
   },
 
   /**
