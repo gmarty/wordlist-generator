@@ -81,6 +81,14 @@ new Promise(function(resolve, reject) {
         return word2.f - word1.f;
       });
 
+    // Convert the frequencies into the 1-255 range.
+    var highestFrequency = words[0].f;
+
+    words
+      .forEach(function(word) {
+        word.f = Math.round(word.f / highestFrequency * 254) + 1;
+      });
+
     return buildXML(words, {
       locale: languageCode,
       version: 1
