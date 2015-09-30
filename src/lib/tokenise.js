@@ -24,14 +24,23 @@ var defaultLanguageFunctions = {
 module.exports = function latinTokenise(corpus, languageCode) {
   console.log('Tokenising corpus');
 
-  try {
-    var languageFunctions = require('./tokenisers/' + languageCode + '.js');
-  } catch (e) {
-    console.error('No charset defined for language %s. ' +
-      'Please add one in src/lib/tokenisers/. ' +
-      'Defaulting to latin charset.', languageCode);
+  var languageFunctions = Object.create(defaultLanguageFunctions);
 
-    languageFunctions = defaultLanguageFunctions;
+  try {
+    var testLanguageFunctions = require('./tokenisers/' + languageCode + '.js');
+
+    if (typeof testLanguageFunctions.tokenise === 'function') {
+      languageFunctions.tokenise = testLanguageFunctions.tokenise;
+    }
+    if (typeof testLanguageFunctions.normalise === 'function') {
+      languageFunctions.normalise = testLanguageFunctions.normalise;
+    }
+    if (typeof testLanguageFunctions.filter === 'function') {
+      languageFunctions.filter = testLanguageFunctions.filter;
+    }
+  } catch (e) {
+    console.error('No language functions defined for language %s. ' +
+      'Please add one in src/lib/tokenisers/.', languageCode);
   }
 
   return new Promise(function(resolve, reject) {
